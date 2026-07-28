@@ -316,7 +316,7 @@ export interface SwitchLLMAction extends ActionBase<"SwitchLLMAction"> {
 export interface CanvasUIAction extends ActionBase<
   "CanvasUIAction" | typeof CANVAS_UI_CLIENT_ACTION_KIND
 > {
-  command: "navigate_to_file" | "open_tab" | "show_preview";
+  command: "navigate_to_file" | "open_tab" | "show_preview" | "send_to_chat";
   path?: string | null;
   tab?: string | null;
 }

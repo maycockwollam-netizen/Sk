@@ -3,6 +3,7 @@ import {
   useConversationStore,
 } from "#/stores/conversation-store";
 import { useFilesTabStore } from "#/stores/files-tab-store";
+import { useChatFileAttachmentsStore } from "#/stores/chat-file-attachments-store";
 import type { CanvasUIAction } from "#/types/agent-server/core";
 
 const VALID_TABS: ReadonlySet<ConversationTab> = new Set<ConversationTab>([
@@ -60,5 +61,19 @@ export function handleCanvasUIAction(
         );
       }
       return;
+    case "send_to_chat":
+      // Agent wants to send a file to the user via chat - show as attachment
+      if (action.path) {
+        handleSendToChat(action.path);
+      }
+      return;
   }
+}
+
+function handleSendToChat(filePath: string): void {
+  // Extract filename from path
+  const fileName = filePath.split("/").pop() || "file";
+  
+  // Add to chat attachments store - will be displayed in chat for user to click and download
+  useChatFileAttachmentsStore.getState().addAttachment(fileName, filePath);
 }

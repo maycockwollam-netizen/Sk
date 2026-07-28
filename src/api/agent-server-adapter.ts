@@ -503,6 +503,16 @@ function hasEncryptedMcpSecrets(mcpConfig: unknown): boolean {
 function getConversationConfirmationPolicy(
   conversationSettings: SettingsRecord,
 ) {
+  // Dev mode always uses NeverConfirm - no restrictions
+  if (conversationSettings.dev_mode === true) {
+    return { kind: "NeverConfirm" };
+  }
+
+  // Auto-pilot mode also uses NeverConfirm - agent works automatically
+  if (conversationSettings.auto_pilot === true || conversationSettings.multi_agent === true) {
+    return { kind: "NeverConfirm" };
+  }
+
   if (conversationSettings.confirmation_mode !== true) {
     return { kind: "NeverConfirm" };
   }
@@ -545,7 +555,7 @@ function shouldIncludeTool(name: string, agentSettings: SettingsRecord) {
 
   if (name === TASK_TOOL_SET_NAME) {
     return (
-      agentSettings.enable_sub_agents === true &&
+      (agentSettings.enable_sub_agents === true || agentSettings.multi_agent === true) &&
       isAgentServerToolAvailable(name)
     );
   }
@@ -993,9 +1003,12 @@ export function buildStartConversationRequest(
     confirmation_policy:
       getConversationConfirmationPolicy(conversationSettings),
     max_iterations:
-      typeof conversationSettings.max_iterations === "number"
-        ? conversationSettings.max_iterations
-        : 500,
+      // Dev mode and Multi-agent allow unlimited iterations
+      conversationSettings.dev_mode === true || conversationSettings.multi_agent === true
+        ? 10000
+        : typeof conversationSettings.max_iterations === "number"
+          ? conversationSettings.max_iterations
+          : 500,
     stuck_detection: true,
     autotitle: true,
     ...(options.titleLlmProfile

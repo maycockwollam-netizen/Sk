@@ -37,6 +37,7 @@ import { LlmNotConfiguredBanner } from "#/components/features/home/llm-not-confi
 import { useLlmConfigured } from "#/hooks/use-llm-configured";
 import { Messages } from "#/components/conversation-events/chat/messages";
 import { PendingUserMessages } from "./pending-user-messages";
+import { ChatFileAttachments } from "./chat-file-attachments";
 import { useUnifiedUploadFiles } from "#/hooks/mutation/use-unified-upload-files";
 import { validateFiles } from "#/utils/file-validation";
 import { useConversationStore } from "#/stores/conversation-store";
@@ -506,6 +507,9 @@ export function ChatInterface() {
           onWheel={handleWheelForPagination}
           className="custom-scrollbar-always flex min-h-0 grow flex-col gap-2 overflow-x-hidden overflow-y-auto px-0 pt-4 pb-8 md:px-4"
         >
+          {/* File attachments from agent */}
+          <ChatFileAttachments />
+
           {isChatLoading && isReturningToConversation && (
             <ChatMessagesSkeleton />
           )}

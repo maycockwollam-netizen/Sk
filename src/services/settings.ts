@@ -11,6 +11,9 @@ export const DEFAULT_SETTINGS: Settings = {
   llm_api_key_set: false,
   search_api_key_set: false,
   confirmation_mode: false,
+  dev_mode: false,
+  auto_pilot: false,
+  multi_agent: false,
   security_analyzer: "llm",
   max_iterations: null,
   remote_runtime_resource_factor: 1,
@@ -58,6 +61,9 @@ export const DEFAULT_SETTINGS: Settings = {
   conversation_settings: {
     schema_version: 1,
     confirmation_mode: false,
+    dev_mode: false,
+    auto_pilot: false,
+    multi_agent: false,
     security_analyzer: "llm",
   },
 };

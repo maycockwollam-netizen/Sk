@@ -147,6 +147,12 @@ export type Settings = {
   llm_api_key_is_set?: boolean;
   search_api_key_set: boolean;
   confirmation_mode: boolean;
+  /** Developer mode - disables restrictions for unrestricted agent behavior */
+  dev_mode?: boolean;
+  /** Auto-pilot mode - agent works automatically without asking */
+  auto_pilot?: boolean;
+  /** Multi-agent mode - agent can spawn sub-agents for parallel work */
+  multi_agent?: boolean;
   security_analyzer: string | null;
   max_iterations: number | null;
   remote_runtime_resource_factor: number | null;
